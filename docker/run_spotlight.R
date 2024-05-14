@@ -127,7 +127,8 @@ save(spat, file='spat.RData')
 # Run the NMF model against input data
 res <- runDeconvolution(
     x = spat@counts[[opt$sample_name]],
-    mod = mod_ls$mod
+    mod = mod_ls[["mod"]],
+    ref = mod_ls[["topic"]]
 )
 
 # Write output

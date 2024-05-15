@@ -50,7 +50,7 @@
             "converter": "api.converters.basic_attributes.UnrestrictedStringConverter",
             "spec": {
                 "attribute_type": "OptionString",
-                "options": ["Kidney"]
+                "options": ["Mouse:Kidney"]
             }
         },
         "gene_id_choice": {

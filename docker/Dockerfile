@@ -15,15 +15,15 @@ RUN micromamba install -y \
     -c bioconda \
     bioconductor-org.hs.eg.db=3.18.0 \
     bioconductor-org.mm.eg.db=3.18.0 \
-    bioconductor-spotlight
+    bioconductor-spotlight \
+    bioconductor-spatialexperiment \
+    bioconductor-sparsematrixstats
 
 ADD run_spotlight.R /usr/local/bin
 ADD create_gene_mappings.R /usr/local/bin
 
 # Create the gene mapping files:
 RUN Rscript /usr/local/bin/create_gene_mappings.R human /opt/resources/human_genes.tsv
-
-# If/when mouse is implemented:
-#RUN Rscript /usr/local/bin/create_gene_mappings.R mouse /opt/resources/mouse_genes.tsv
+RUN Rscript /usr/local/bin/create_gene_mappings.R mouse /opt/resources/mouse_genes.tsv
 
 ADD run.sh /usr/local/bin

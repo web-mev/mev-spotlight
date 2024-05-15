@@ -1,12 +1,24 @@
 suppressMessages(library(SPOTlight))
 suppressMessages(library(SingleCellExperiment))
 suppressMessages(library(SpatialExperiment))
-# suppressMessages(library(scater))
-# suppressMessages(library(scran))
-
+suppressMessages(library(NMF))
+suppressMessages(library(Matrix))
+suppressMessages(library(sparseMatrixStats))
 source('/usr/local/bin/prep_stlist.R')
 
 suppressMessages(library(optparse))
+
+# our own scaling function. Note that in the spotlight code
+# https://github.com/MarcElosua/SPOTlight/blob/devel/R/utils.R
+# their scaling introduces NAs which cause downstream issues. 
+# The NAs originate from a 0/0 which results from the introduction
+# of zero-count genes which are needed to get the model and count
+# matrix to load appropriately.
+.scale_uv <- function(x) {
+    sds <- sparseMatrixStats::rowSds(x, na.rm = TRUE)
+    # Scale by gene (each row by its sd) for unit variance
+    x / sds
+}
 
 # args from command line:
 args <- commandArgs(TRUE)
@@ -124,10 +136,32 @@ spat <- transform_data(spat, method=norm_scheme)
 
 save(spat, file='spat.RData')
 
+W <- NMF::basis(mod_ls$mod)
+model_genes <- rownames(W)
+
+counts <- spat@counts[[opt$sample_name]]
+mtx_genes <- rownames(counts)
+diff_set <- setdiff(model_genes, mtx_genes)
+
+# create a matrix of zeros, make it sparse, and add it to 
+# the existing counts:
+m <- matrix(0, length(diff_set), dim(counts)[2])
+rownames(m) <- diff_set
+colnames(m) <- colnames(counts)
+ms <- Matrix(m, sparse=TRUE)
+final <- rbind(counts, ms)
+
+# scale to avoid the NAs if we call runDeconvolution
+# with scale=TRUE (the default) below:
+final <- .scale_uv(final)
+final[is.na(final)] <- 0
+
 # Run the NMF model against input data
 res <- runDeconvolution(
-    x = spat@counts[[opt$sample_name]],
-    mod = mod_ls$mod
+    x = final,
+    mod = mod_ls$mod,
+    ref = mod_ls$topic,
+    scale=FALSE
 )
 
 # Write output

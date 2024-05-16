@@ -165,10 +165,19 @@ res <- runDeconvolution(
 )
 
 # Write output
+output_filename <- paste(working_dir, opt$output, sep='/')
 write.table(
     t(res$mat),
-    opt$output,
+    output_filename,
     sep="\t",
     quote=F,
     row.names=T
 )
+
+# also need to write the output file so we know which files
+# correspond to the output
+json_str = paste0(
+       '{"deconvoluted_output":"', output_filename, '"}'
+)
+output_json <- paste(working_dir, 'outputs.json', sep='/')
+write(json_str, output_json)

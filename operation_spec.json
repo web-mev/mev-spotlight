@@ -6,7 +6,7 @@
             "description": "The input raw count matrix. Must be an integer-based table.", 
             "name": "Count matrix:", 
             "required": true, 
-            "converter": "api.converters.data_resource.RemoteNextflowSingleVariableDataResourceConverter",
+            "converter": "api.converters.data_resource.LocalDockerSingleVariableDataResourceConverter",
             "spec": {
                 "attribute_type": "VariableDataResource", 
                 "resource_types": ["I_MTX", "RNASEQ_COUNT_MTX"], 
@@ -17,7 +17,7 @@
             "description": "The coordinate metadata. This describes the physical location for each of the sampled points. The first column has the barcode values which should match the columns of the expression matrix. Columns 2 and 3 have the horizontal (x) and vertical (y) positions.", 
             "name": "Coordinate metadata:", 
             "required": true, 
-            "converter": "api.converters.data_resource.RemoteNextflowSingleDataResourceConverter",
+            "converter": "api.converters.data_resource.LocalDockerSingleDataResourceConverter",
             "spec": {
                 "attribute_type": "DataResource", 
                 "resource_type": "ANN", 
@@ -68,7 +68,7 @@
     "outputs": {
         "deconvoluted_output": {
             "required": true,
-            "converter": "api.converters.data_resource.RemoteNextflowSingleDataResourceConverter",
+            "converter": "api.converters.data_resource.LocalDockerSingleDataResourceConverter",
             "spec": {
                 "attribute_type": "DataResource",
                 "resource_type": "ANN",

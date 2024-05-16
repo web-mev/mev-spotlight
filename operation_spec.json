@@ -76,6 +76,6 @@
             }
         }
     },
-    "mode": "nf_batch",
+    "mode": "local_docker",
     "workspace_operation": true
 }

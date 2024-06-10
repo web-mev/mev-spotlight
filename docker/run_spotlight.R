@@ -155,6 +155,7 @@ final <- rbind(counts, ms)
 # with scale=TRUE (the default) below:
 final <- .scale_uv(final)
 final[is.na(final)] <- 0
+final <- as.matrix(final)
 
 # Run the NMF model against input data
 res <- runDeconvolution(

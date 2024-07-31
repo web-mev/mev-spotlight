@@ -5,8 +5,10 @@ COORDS=$2
 SAMPLE_ID=$3
 NORMALIZATION_METHOD=$4
 GENE_IDS=$5
-MODEL=$6
-OUTPUT_FILENAME=$7
+XPOS_COL=$6
+YPOS_COL=$7
+MODEL=$8
+OUTPUT_FILENAME=$9
 
 # TODO: handle multiple organisms and gene mapping more generally
 declare -A MODELS_MAP
@@ -26,7 +28,9 @@ then
         -t /tmp/model.txt \
         -m $GENE_MAP_FILE \
         -i $GENE_IDS \
-        -o $OUTPUT_FILENAME
+        -o $OUTPUT_FILENAME \
+        -x $XPOS_COL \
+        -y $YPOS_COL
 else
     echo "The choice of \"$MODEL\" was not a valid choice."
     exit 1;

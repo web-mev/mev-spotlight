@@ -55,6 +55,14 @@ option_list <- list(
     make_option(
         c('-o', '--output'),
         help='The name of the output file'
+    ),
+    make_option(
+        c('-x', '--xpos_col'),
+        help='The column header for the x-position coordinate metadata'
+    ),
+    make_option(
+        c('-y', '--ypos_col'),
+        help='The column header for the y-position coordinate metadata'
     )
 )
 
@@ -126,6 +134,8 @@ gene_mapping_df <- read.table(opt$map_file, sep='\t', header=T)
 spat_list <- prep_stlist(opt$input_file, 
                          opt$coordinates_file,
                          opt$sample_name,
+                         opt$xpos_col,
+                         opt$ypos_col,
                          gene_mapping_df,
                          gene_ids,
                          'SYMBOL')

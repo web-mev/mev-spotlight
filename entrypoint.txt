@@ -1,1 +1,1 @@
-/usr/local/bin/run.sh {{raw_counts}} {{coords_metadata}} {{sample_name}} {{normalization_method}} {{gene_id_choice}} {{trained_model}} spotlight-results.{{trained_model}}.tsv
+/usr/local/bin/run.sh {{raw_counts}} {{coords_metadata}} {{sample_name}} {{normalization_method}} {{gene_id_choice}} {{xpos_col}} {{ypos_col}} {{trained_model}} spotlight-results.{{trained_model}}.tsv
